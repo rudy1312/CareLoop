@@ -14,7 +14,7 @@ const Index = () => {
                 Capture and analyze patient feedback with ease
               </h1>
               <p className="text-lg text-gray-600">
-                FeedbackFlow helps hospitals improve patient satisfaction by
+                CareLoop helps hospitals improve patient satisfaction by
                 collecting and analyzing feedback in multiple formats - text,
                 voice, and video.
               </p>
@@ -144,7 +144,7 @@ const Index = () => {
                 ))}
               </div>
               <blockquote className="text-xl md:text-2xl font-medium text-gray-900 mb-6">
-                "FeedbackFlow has transformed how we collect and utilize patient
+                "CareLoop has transformed how we collect and utilize patient
                 feedback. The sentiment analysis helps us quickly identify areas
                 for improvement, and the weekly action plans have directly
                 contributed to higher patient satisfaction scores."
@@ -177,7 +177,7 @@ const Index = () => {
               Ready to improve patient satisfaction?
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
-              Join hundreds of healthcare facilities using FeedbackFlow to
+              Join hundreds of healthcare facilities using CareLoop to
               collect and analyze patient feedback.
             </p>
             <div className="flex flex-wrap justify-center gap-4">

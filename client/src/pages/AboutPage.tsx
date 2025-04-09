@@ -13,7 +13,7 @@ const AboutPage = () => {
               Our mission is to improve healthcare through feedback
             </h1>
             <p className="text-lg text-gray-600">
-              FeedbackFlow was founded with a simple but powerful idea: give
+              CareLoop was founded with a simple but powerful idea: give
               patients a voice and help healthcare providers listen and improve.
             </p>
           </div>
@@ -35,7 +35,7 @@ const AboutPage = () => {
               <h2 className="heading-2 text-gray-900">Our Story</h2>
               <p className="text-gray-600">
                 Founded in 2020 by a team of healthcare professionals and
-                technology experts, FeedbackFlow was born from firsthand
+                technology experts, CareLoop was born from firsthand
                 experience with the challenges of collecting and analyzing
                 patient feedback.
               </p>
@@ -47,7 +47,7 @@ const AboutPage = () => {
                 naturally.
               </p>
               <p className="text-gray-600">
-                Today, FeedbackFlow is used by hundreds of healthcare facilities
+                Today, CareLoop is used by hundreds of healthcare facilities
                 worldwide, helping them improve patient care through actionable
                 insights.
               </p>
@@ -62,7 +62,7 @@ const AboutPage = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="heading-2 text-gray-900 mb-4">Our Values</h2>
             <p className="text-lg text-gray-600">
-              These core principles guide everything we do at FeedbackFlow
+              These core principles guide everything we do at CareLoop
             </p>
           </div>
 
@@ -197,7 +197,7 @@ const AboutPage = () => {
               Join us in transforming patient feedback
             </h2>
             <p className="text-lg text-gray-600">
-              Experience how FeedbackFlow can help your healthcare facility
+              Experience how CareLoop can help your healthcare facility
               improve patient satisfaction and outcomes.
             </p>
             <div className="pt-4 flex justify-center gap-4">

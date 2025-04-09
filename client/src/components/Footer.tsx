@@ -13,7 +13,7 @@ const Footer = () => {
                 <span className="text-white font-bold text-sm">PF</span>
               </div>
               <span className="text-lg font-semibold tracking-tight text-gray-800">
-                FeedbackFlow
+                CareLoop
               </span>
             </div>
             <p className="text-sm text-gray-500">
@@ -115,7 +115,7 @@ const Footer = () => {
 
         <div className="pt-8 mt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-gray-500">
-            © {currentYear} FeedbackFlow. All rights reserved.
+            © {currentYear} CareLoop. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <a href="#" className="text-gray-400 hover:text-gray-500">

@@ -1,28 +1,35 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  
+
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Pricing', path: '/pricing' }
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Pricing", path: "/pricing" },
   ];
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm px-20">
       <div className="container-custom py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold">PF</span>
+          <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-sm hover:shadow-md transition-all shadow-primary">
+            <img
+              src={logo}
+              alt="CareLoop Logo"
+              className="w-full h-full rounded-lg"
+            />
           </div>
-          <span className="text-xl font-semibold tracking-tight text-gray-800">FeedbackFlow</span>
+          <span className="text-xl font-semibold tracking-tight text-gray-800">
+            CareLoop
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -34,15 +41,15 @@ const Navbar = () => {
                 to={link.path}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'text-primary'
-                    : 'text-gray-600 hover:text-primary'
+                    ? "text-primary"
+                    : "text-gray-600 hover:text-primary"
                 }`}
               >
                 {link.name}
               </Link>
             ))}
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <Link to="/login/patient">
               <Button variant="outline" size="sm" className="btn-hover">
@@ -80,9 +87,7 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={`block text-sm font-medium py-2 ${
-                  isActive(link.path)
-                    ? 'text-primary'
-                    : 'text-gray-600'
+                  isActive(link.path) ? "text-primary" : "text-gray-600"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -96,9 +101,7 @@ const Navbar = () => {
                 </Button>
               </Link>
               <Link to="/login/admin" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full justify-start">
-                  Admin Login
-                </Button>
+                <Button className="w-full justify-start">Admin Login</Button>
               </Link>
             </div>
           </div>

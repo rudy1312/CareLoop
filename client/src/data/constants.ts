@@ -214,7 +214,7 @@ export const faqData = [
   {
     question: "How secure is patient feedback data?",
     answer:
-      "FeedbackFlow is HIPAA compliant and uses industry-leading encryption to protect all patient data. We never share or sell your data.",
+      "CareLoop is HIPAA compliant and uses industry-leading encryption to protect all patient data. We never share or sell your data.",
   },
   {
     question: "Can I customize the feedback forms?",
