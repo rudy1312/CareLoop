@@ -33,3 +33,10 @@ cd client
 npm install
 npm run dev
 ```
+
+### 2. Install dependencies: Backend
+```bash
+cd server
+npm install
+npm run dev
+```
