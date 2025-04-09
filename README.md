@@ -29,7 +29,7 @@ cd CareLoop
 
 ### 2. Install dependencies: Frontend
 ```bash
-cd server
+cd client
 npm install
 npm run dev
 ```
