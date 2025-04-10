@@ -4,7 +4,29 @@ import serverless from "serverless-http";
 
 const app = express();
 
-app.use(cors());
+// app.use(
+//   cors({
+//     origin: "http://localhost:8080",
+//     credentials: true,
+//   })
+// );
+
+const allowedOrigins = [
+  "http://localhost:8080",  // for development
+  "https://care-loop.vercel.app", // for production
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
 
 app.use(express.json());
 

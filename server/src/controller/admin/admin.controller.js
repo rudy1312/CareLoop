@@ -50,7 +50,7 @@ const logging = asyncHandler(async (req, res) => {
     throw new ApiErr(409, "no admin found!");
   }
 
-  const isPasswordValid = bcryptjs.compare(password, existedAdmin.password);
+  const isPasswordValid = await bcryptjs.compare(password, existedAdmin.password);
 
   if (!isPasswordValid) {
     throw new ApiErr(500, "password's wrong!");
@@ -79,7 +79,7 @@ const getAllFeedbacks = asyncHandler(async (_, res) => {
   const countNegative = negative.length;
   const countNeutral = neutral.length;
 
-  return res.status(201).json({
+  return res.status(200).json({
     allFeedbacks: all,
     positiveFeedbacks: positive,
     negativeFeedbacks: negative,
@@ -113,7 +113,7 @@ const getAllTopics = asyncHandler(async (_, res) => {
   const pdcCount = pdc.length;
   const digitalExperienceCount = digitalExperience.length;
 
-  return res.status(201).json({
+  return res.status(200).json({
     staffFeedbacks: staff,
     billingFeedbacks: billing,
     communicationFeedbacks: communication,
@@ -157,7 +157,7 @@ const getAllDepartments = asyncHandler(async (_, res) => {
   const countRadiology = radiology.length;
   const countPharmacy = pharmacy.length;
 
-  return res.status(201).json({
+  return res.status(200).json({
     allFeedbacks: countAll,
     emergency: countEmergency,
     cardiology: countCardiology,

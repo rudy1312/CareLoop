@@ -66,7 +66,7 @@ const AdminDashboard = () => {
     const fetchAllFeedbacks = async () => {
       try {
         const res = await axios.get(
-          "https://careloop.onrender.com/bloom/v1/api/admin/fetchAll",
+          "https://careloop.onrender.com/bloom/v1/api/admin/fetchAll", //http://localhost:3000   //https://careloop.onrender.com
           {
             withCredentials: true,
           }
