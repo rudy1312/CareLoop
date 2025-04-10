@@ -45,7 +45,7 @@ def process_feedback(feedback_data):
             return None
 
     elif "text" in feedback_data and feedback_data["text"]:
-        processed_info["transcription"] = None # No transcription for direct text
+        processed_info["transcription"] = "" # No transcription for direct text
         summary = summarize_text(feedback_data["text"])
         if summary:
             processed_info["summary"] = summary
