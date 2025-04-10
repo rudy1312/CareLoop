@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -30,45 +31,48 @@ const AdminLogin = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const response = await fetch(
+        "https://careloop.onrender.com/bloom/v1/api/admin/log",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      // Normally you would validate these credentials against a backend
-      // For demo purposes, we'll accept admin@example.com / password
-      if (
-        formData.email === "admin@example.com" &&
-        formData.password === "password"
-      ) {
-        toast({
-          title: "Login successful",
-          description: "Welcome to the admin dashboard.",
-        });
+      const data = await response.json();
 
-        // Store admin data in sessionStorage
-        sessionStorage.setItem(
-          "adminUser",
-          JSON.stringify({
-            email: formData.email,
-            hospitalId: formData.hospitalId,
-            name: "Admin User",
-          })
-        );
-
-        navigate("/admin/dashboard");
-      } else {
-        toast({
-          title: "Login failed",
-          description:
-            "Invalid credentials. Try using admin@example.com / password",
-          variant: "destructive",
-        });
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
       }
-    }, 1500);
+
+      toast({
+        title: "Login successful",
+        description: "Welcome to the admin dashboard.",
+      });
+
+      const inFiveHours = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
+      Cookies.set("adminLoginData", JSON.stringify(formData), {
+        expires: inFiveHours,
+      });
+
+      navigate("/admin/dashboard");
+    } catch (err: any) {
+      toast({
+        title: "Login failed",
+        description: err.message || "An error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -129,7 +133,7 @@ const AdminLogin = () => {
               </div>
             </CardContent>
 
-            <CardFooter className="flex flex-col space-y-4">
+            <CardFooter className="flex-col space-y-4">
               <Button
                 type="submit"
                 className="w-full btn-hover"
@@ -137,6 +141,16 @@ const AdminLogin = () => {
               >
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
+
+              <p className="text-sm text-center">
+                Don't have an account?{" "}
+                <Link
+                  to="/register/admin"
+                  className="text-primary font-medium hover:underline"
+                >
+                  Register now
+                </Link>
+              </p>
 
               <div className="text-sm text-center">
                 <span className="text-gray-600">Demo credentials: </span>

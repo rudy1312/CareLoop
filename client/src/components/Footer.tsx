@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,12 +10,18 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">PF</span>
-              </div>
-              <span className="text-lg font-semibold tracking-tight text-gray-800">
-                CareLoop
-              </span>
+              <Link to="/" className="flex items-center space-x-2">
+                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-sm hover:shadow-md transition-all shadow-primary">
+                  <img
+                    src={logo}
+                    alt="CareLoop Logo"
+                    className="w-full h-full rounded-lg"
+                  />
+                </div>
+                <span className="text-xl font-semibold tracking-tight text-gray-800">
+                  CareLoop
+                </span>
+              </Link>
             </div>
             <p className="text-sm text-gray-500">
               Helping hospitals improve patient experience through valuable

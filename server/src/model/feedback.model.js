@@ -25,6 +25,14 @@ const feedbackSchema = new Schema({
     },
     mediaContent: {
         type: String
+    },
+    response: {
+        type: String,
+        default: ""
+    },
+    response_status: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

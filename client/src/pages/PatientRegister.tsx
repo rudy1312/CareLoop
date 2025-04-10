@@ -12,56 +12,97 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
 import axios from "axios";
-import Cookies from "js-cookie";
 
-const PatientLogin = () => {
+const patientSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  patientId: z.string().min(3, "ID must be at least 3 characters"),
+  mobileNumber: z.string().min(10, "Mobile number must be at least 10 digits"),
+  hospitalId: z.string().min(3, "Hospital ID must be at least 3 characters"),
+});
+
+type PatientForm = z.infer<typeof patientSchema>;
+
+const PatientRegister = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<PatientForm>({
     name: "",
     patientId: "",
     mobileNumber: "",
     hospitalId: "",
   });
 
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof PatientForm, string>>
+  >({});
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user types
+    if (errors[name as keyof PatientForm]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const validateForm = () => {
+    try {
+      patientSchema.parse(formData);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Partial<Record<keyof PatientForm, string>> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            newErrors[err.path[0] as keyof PatientForm] = err.message;
+          }
+        });
+        setErrors(newErrors);
+      }
+      return false;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     setIsLoading(true);
 
+    // Simulate registration process
     try {
-      const response = await axios.post("https://careloop.onrender.com/bloom/v1/api/patient/log", {
-        fullName: formData.name,
-        patientID: formData.patientId,
-        mobile: formData.mobileNumber,
-        hospitalID: formData.hospitalId,
-      });
+      const response = await axios.post(
+        "https://careloop.onrender.com/bloom/v1/api/patient/reg",
+        {
+          fullName: formData.name,
+          patientID: formData.patientId,
+          mobile: formData.mobileNumber,
+          hospitalID: formData.hospitalId,
+        }
+      );
+
+      console.log("Backend response:", response.data);
 
       toast({
-        title: "Login successful",
-        description: response.data.msg,
+        title: "Registration successful",
+        description: "Your account has been created. You can now log in.",
       });
 
-      navigate("/patient/dashboard");
-
-      const fiveHoursFromNow = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
-
-      Cookies.set("patientData", JSON.stringify(formData), { expires: fiveHoursFromNow });
-
-
+      navigate("/login/patient");
     } catch (error: any) {
+      console.error("Registration error:", error);
+
       toast({
+        title: "Registration failed",
+        description:
+          error?.response?.data?.message ||
+          "Something went wrong. Please try again.",
         variant: "destructive",
-        title: "Login failed",
-        description: error?.response?.data?.message || "Something went wrong",
       });
     } finally {
       setIsLoading(false);
@@ -72,15 +113,17 @@ const PatientLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50 p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">Patient Feedback</h1>
-          <p className="text-gray-600 mt-2">Login to share your experience</p>
+          <h1 className="text-3xl font-bold">Patient Registration</h1>
+          <p className="text-gray-600 mt-2">
+            Create your account to provide feedback
+          </p>
         </div>
 
         <Card className="glass-card border-gray-200">
           <CardHeader>
-            <CardTitle className="text-xl">Patient Login</CardTitle>
+            <CardTitle className="text-xl">Patient Sign Up</CardTitle>
             <CardDescription>
-              Please enter your details to continue
+              Please fill in your details to create an account
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
@@ -93,8 +136,11 @@ const PatientLogin = () => {
                   placeholder="John Doe"
                   value={formData.name}
                   onChange={handleChange}
-                  required
+                  className={errors.name ? "border-red-500" : ""}
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -105,8 +151,13 @@ const PatientLogin = () => {
                   placeholder="PAT123456"
                   value={formData.patientId}
                   onChange={handleChange}
-                  required
+                  className={errors.patientId ? "border-red-500" : ""}
                 />
+                {errors.patientId && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.patientId}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -118,8 +169,13 @@ const PatientLogin = () => {
                   placeholder="(555) 123-4567"
                   value={formData.mobileNumber}
                   onChange={handleChange}
-                  required
+                  className={errors.mobileNumber ? "border-red-500" : ""}
                 />
+                {errors.mobileNumber && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.mobileNumber}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -130,8 +186,13 @@ const PatientLogin = () => {
                   placeholder="HOSP001"
                   value={formData.hospitalId}
                   onChange={handleChange}
-                  required
+                  className={errors.hospitalId ? "border-red-500" : ""}
                 />
+                {errors.hospitalId && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.hospitalId}
+                  </p>
+                )}
               </div>
             </CardContent>
 
@@ -141,31 +202,24 @@ const PatientLogin = () => {
                 className="w-full btn-hover"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? "Creating Account..." : "Register"}
               </Button>
 
               <p className="text-sm text-center">
-                Don't have an account?{" "}
+                Already have an account?{" "}
                 <Link
-                  to="/register/patient"
+                  to="/login/patient"
                   className="text-primary font-medium hover:underline"
                 >
-                  Register now
+                  Log in
                 </Link>
               </p>
             </CardFooter>
           </form>
         </Card>
-
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-600">
-            Having trouble logging in? Please contact the hospital reception
-            desk.
-          </p>
-        </div>
       </div>
     </div>
   );
 };
 
-export default PatientLogin;
+export default PatientRegister;
