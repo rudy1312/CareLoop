@@ -69,20 +69,16 @@ def process_feedback(feedback_data):
         return None
 
 if __name__ == "__main__":
-    all_feedback = [
-        {"audio_path": AUDIO_FILE_PATH},
-        {"text": "The nurses were very helpful and the room was clean. However, the food was quite bland."},
-        {"text": "Everything was excellent, I have no complaints."},
-        {"audio_path": "/Users/rudrarajkundu/Developer/CareLoop/ml/data/sample_audio2.mp3"}, # Assuming you have this file
-        {"text": "The billing process was confusing and took a long time to resolve."}
-    ]
+    # Example usage for audio feedback:
+    audio_feedback = {"audio_path": AUDIO_FILE_PATH}
+    processed_audio_feedback = process_feedback(audio_feedback)
+    if processed_audio_feedback:
+        print("\n--- Processed Audio Feedback ---")
+        print(processed_audio_feedback)
 
-    all_processed_feedback = []
-    for feedback in all_feedback:
-        processed_result = process_feedback(feedback)
-        if processed_result:
-            all_processed_feedback.append(processed_result)
-
-    print("\n--- All Processed Feedback ---")
-    for item in all_processed_feedback:
-        print(item)
+    # Example usage for text feedback (uncomment to use):
+    # text_feedback = {"text": "The nurses were very helpful and the room was clean. However, the food was quite bland."}
+    # processed_text_feedback = process_feedback(text_feedback)
+    # if processed_text_feedback:
+    #     print("\n--- Processed Text Feedback ---")
+    #     print(processed_text_feedback)
